@@ -28,4 +28,18 @@ mockMvc.get("/api/banks")
         jsonPath("$[0].accountNumber") { value("1234") }
     }
     }
+    @Test
+    fun `should return the bank with the given account number`() {
+    // given
+    val accountNumber = 1234
+    //when
+    mockMvc.get("/api/banks/$accountNumber")
+        .andDo {print()}
+        .andExpect {
+            status { isOk() }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            jsonPath("$.trust") {value("3.14")}
+            jsonPath("$.transactionFee") {value("17")}
+        }
+    }
 }
